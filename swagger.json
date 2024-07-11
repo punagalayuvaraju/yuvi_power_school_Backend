@@ -1,0 +1,15 @@
+{
+    "openapi": "3.0.0",
+    "info": { "title": "", "contact": {}, "version": "v1" },
+    "servers": [],
+    "security": [{ "Authorization": [], "token": [] }],
+    "tags": [],
+    "paths": {},
+    "components": {
+        "schemas": {},
+        "securitySchemes": {
+            "Authorization": { "type": "http", "scheme": "bearer" },
+            "token": { "type": "http", "scheme": "bearer" }
+        }
+    }
+}
