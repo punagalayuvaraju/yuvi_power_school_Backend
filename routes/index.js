@@ -5,8 +5,8 @@ const v1Routes = require("./v1");
 const moment = require("moment");
 const dateTime = moment().format("DD-MMM-YYYY hh:mm:ss a");
 router.use((req, res, next) => {
-    if (/healthCheck/gi.test(req.url)) {
-        res.send(`
+  if (/healthCheck/gi.test(req.url)) {
+    res.send(`
             <table>
                 <tbody>
                     <tr>
@@ -24,7 +24,7 @@ router.use((req, res, next) => {
                 </tbody>
             </table>
         `);
-    } else next();
+  } else next();
 });
-router.use("/myproj/v1/api", v1Routes);
+router.use("/taskProj/v1/api", v1Routes);
 module.exports = router;

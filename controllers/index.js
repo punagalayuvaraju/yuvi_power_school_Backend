@@ -1,3 +1,4 @@
 module.exports = {
-    AuthController: require("../controllers/auth"),
+    TaskController: require("./taskController"),
+    UserController: require("./userController"),
 };

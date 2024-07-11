@@ -1,15 +1,260 @@
 {
     "openapi": "3.0.0",
-    "info": { "title": "", "contact": {}, "version": "v1" },
-    "servers": [],
-    "security": [{ "Authorization": [], "token": [] }],
-    "tags": [],
-    "paths": {},
+    "info": {
+        "title": "Task Manager API",
+        "version": "1.0.0",
+        "description": "A simple Task Manager API"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/taskProj/v1"
+        }
+    ],
+    "paths": {
+        "/api/users": {
+            "get": {
+                "summary": "Returns a list of users",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new user",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The user was successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/tasks": {
+            "get": {
+                "summary": "Returns a list of tasks",
+                "tags": [
+                    "Tasks"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new task",
+                "tags": [
+                    "Tasks"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The task was successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/tasks/{id}": {
+            "put": {
+                "summary": "Update a task",
+                "tags": [
+                    "Tasks"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "The task id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The task was successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a task",
+                "tags": [
+                    "Tasks"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "The task id"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The task was successfully deleted"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        }
+    },
     "components": {
-        "schemas": {},
-        "securitySchemes": {
-            "Authorization": { "type": "http", "scheme": "bearer" },
-            "token": { "type": "http", "scheme": "bearer" }
+        "schemas": {
+            "User": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "emailId",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "emailId": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "name": "John Doe",
+                    "emailId": "john.doe@example.com",
+                    "password": "password123"
+                }
+            },
+            "Task": {
+                "type": "object",
+                "required": [
+                    "title",
+                    "dueDate",
+                    "userId"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "Scheduled",
+                            "Completed",
+                            "Cancelled"
+                        ]
+                    },
+                    "userId": {
+                        "type": "string",
+                        "format": "ObjectId"
+                    }
+                },
+                "example": {
+                    "title": "Complete project",
+                    "createdDate": "2024-07-11T09:00:00Z",
+                    "dueDate": "2024-07-12T09:00:00Z",
+                    "status": "Scheduled",
+                    "userId": "60d0fe4f5311236168a109ca"
+                }
+            }
         }
     }
 }

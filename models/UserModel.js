@@ -1,21 +1,44 @@
-const mongoose = require("../models");
+const mongoose = require(".");
+const bcrypt = require("bcrypt");
 const UserSchema = new mongoose.Schema(
-    {
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
-        email: { type: String, required: true },
-        password: { type: String, required: true },
-        isConfirmed: { type: Boolean, required: true, default: 0 },
-        confirmOTP: { type: String, required: false },
-        otpTries: { type: Number, required: false, default: 0 },
-        status: { type: Boolean, required: true, default: 1 },
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    { timestamps: true }
+    emailId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    status: { type: Boolean, required: true, default: true },
+  },
+  { timestamps: true }
 );
 
-// Virtual for user's full name
-UserSchema.virtual("fullName").get(function () {
-    return this.firstName + " " + this.lastName;
+UserSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("password")) {
+      return next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
+
+UserSchema.methods.isValidPassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (err) {
+    throw err;
+  }
+};
 
 module.exports = mongoose.model("user", UserSchema, "user");
