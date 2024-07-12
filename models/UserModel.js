@@ -41,4 +41,19 @@ UserSchema.methods.isValidPassword = async function (password) {
   }
 };
 
+// Exclude password field from the output
+UserSchema.set("toJSON", {
+  transform: (doc, ret, options) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
+UserSchema.set("toObject", {
+  transform: (doc, ret, options) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
 module.exports = mongoose.model("user", UserSchema, "user");

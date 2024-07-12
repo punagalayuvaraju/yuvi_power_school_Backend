@@ -5,6 +5,12 @@
         "version": "1.0.0",
         "description": "A simple Task Manager API"
     },
+    "security": [
+        {
+            "Authorization": [],
+            "token": []
+        }
+    ],
     "servers": [
         {
             "url": "http://localhost:3000/taskProj/v1"
@@ -61,6 +67,56 @@
                     },
                     "400": {
                         "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "summary": "Login a user",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid email or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -189,6 +245,13 @@
             }
         }
     },
+    "securitySchemes": {
+        "token": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "token"
+        }
+    },
     "components": {
         "schemas": {
             "User": {
@@ -213,6 +276,55 @@
                     "name": "John Doe",
                     "emailId": "john.doe@example.com",
                     "password": "password123"
+                }
+            },
+            "LoginUser": {
+                "type": "object",
+                "required": [
+                    "emailId",
+                    "password"
+                ],
+                "properties": {
+                    "emailId": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "emailId": "john.doe@example.com",
+                    "password": "password123"
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "user": {
+                        "name": "John Doe",
+                        "emailId": "john.doe@example.com",
+                        "_id": "60d0fe4f5311236168a109ca"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "error": "Invalid email or password"
                 }
             },
             "Task": {

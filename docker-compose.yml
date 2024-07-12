@@ -1,0 +1,12 @@
+version: '3'
+services:
+  powerschool_backend:
+    container_name: powerschool_backend
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file: .env
+
+# RUN Command: docker-compose -f deployment/docker-compose.yml up -d --build
+# STOP Command: docker-compose -f deployment/docker-compose.yml down --volumes
