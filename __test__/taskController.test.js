@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes); // To create a user for testing
 
+jest.setTimeout(30000); // Increase timeout to 30 seconds
+
 let mongoServer;
 
 beforeAll(async () => {

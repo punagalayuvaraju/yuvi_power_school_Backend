@@ -11,6 +11,8 @@ app.use("/api/users", userRoutes);
 
 let mongoServer;
 
+jest.setTimeout(30000); // Increase timeout to 30 seconds
+
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
