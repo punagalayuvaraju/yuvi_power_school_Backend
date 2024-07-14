@@ -15,4 +15,4 @@ RUN apk del make gcc g++ python3 && \
     rm -rf /var/cache/apk/* && \
     npm cache clean --force
 EXPOSE 3000
-CMD [ "npm", "run", "migrate_start" ]
+CMD [ "npm", "run", "start" ]

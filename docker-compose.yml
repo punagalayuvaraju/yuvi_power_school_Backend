@@ -8,5 +8,5 @@ services:
       - "3000:3000"
     env_file: .env
 
-# RUN Command: docker-compose -f deployment/docker-compose.yml up -d --build
-# STOP Command: docker-compose -f deployment/docker-compose.yml down --volumes
+# RUN Command: docker compose up -d --build
+# STOP Command: docker-compose  deployment/docker-compose.yml down --volumes
