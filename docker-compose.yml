@@ -9,4 +9,4 @@ services:
     env_file: .env
 
 # RUN Command: docker compose up -d --build
-# STOP Command: docker-compose  deployment/docker-compose.yml down --volumes
+# STOP Command: docker-compose down --volumes
